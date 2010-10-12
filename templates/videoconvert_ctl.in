@@ -1,0 +1,27 @@
+#!/bin/bash
+
+LOG=${buildout:log-directory}/videoconvert.log
+PID=${buildout:run-directory}/videoconvert.pid
+TAC=${tac-path}
+start(){
+  ${buildout:bin-directory}/twistd --logfile=$LOG --pidfile=$PID -y $TAC
+}
+
+stop(){
+  kill -15 `cat $PID`
+}
+
+case "$1" in
+  start)
+    start;;
+  stop)
+    stop;;
+  restart)
+    start
+    stop;;
+  *)
+  echo "Usage: videoconvert_ctl {start|stop|restart}"
+  exit 1;;
+esac
+exit
+

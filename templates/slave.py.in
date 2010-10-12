@@ -1,0 +1,56 @@
+#!${buildout:bin-directory}/python
+#-*- coding:utf-8 -*-
+
+from urllib import urlencode
+from urllib2 import urlopen, Request
+from simplejson import loads
+from xmlrpclib import Server
+from base64 import b64encode, decodestring
+from nsi.multimedia.transform.ogg_converter import OggConverter
+from nsi.multimedia.utils import replace_file_extension
+from time import sleep
+
+def work(delay=10):
+    while True:
+        request = Request("http://0.0.0.0:8886/q/to_convert")
+        response = urlopen(request)
+        response_data = response.read()
+        print response_data
+        if loads(response_data):
+            response_dict = loads(loads(response_data)["value"])
+            uid = response_dict["uid"]
+            video_b64 = eval(get_from_sam(uid))
+            converted = video_b64["data"]["converted"]
+            if not converted:
+                process_video(uid, video_b64["data"]["video"], "/tmp/converted")
+        sleep(delay)
+
+def process_video(uid, video, tmp_video_path):
+    save_video_to_filesystem(video, tmp_video_path)
+    converted_video = convert_video(tmp_video_path)
+    uid = store_in_sam(uid, b64encode(converted_video))
+    return uid
+
+def save_video_to_filesystem(video, path):
+    video = decodestring(video)
+    video_to_convert = open(path, 'w+')
+    video_to_convert.write(video)
+    video_to_convert.close()
+
+def convert_video(path, destination=None):
+    if not destination:
+        destination = (path + '.ogm')
+    converter = OggConverter(path, target=destination).run()
+    return open(destination or replace_file_extension(path, 'ogm')).read()
+
+def store_in_sam(uid, video):
+    sam = Server("http://${slaves:sam_user}:${slaves:sam_password}@${slaves:sam_host}:${slaves:sam_port}/xmlrpc")
+    return sam.update(uid, video)
+
+def get_from_sam(uid):
+    sam = Server("http://${slaves:sam_user}:${slaves:sam_password}@${slaves:sam_host}:${slaves:sam_port}/xmlrpc")
+    return sam.get(uid)
+
+if __name__ == '__main__':
+    work()
+
