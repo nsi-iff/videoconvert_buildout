@@ -3,7 +3,7 @@
 
 import cyclone.web
 from twisted.application import service, internet
-from nsivideoconvert.xmlrpc import XmlrpcHandler
+from nsivideoconvert.http import HttpHandler
 from nsivideoconvert.auth import Authentication
 from ConfigParser import RawConfigParser
 
@@ -17,7 +17,7 @@ class VideoConvert(cyclone.web.Application):
 
     def __init__(self):
         handlers = [
-            (r"/xmlrpc", XmlrpcHandler),
+            (r"/", HttpHandler),
         ]
 
         settings = {
