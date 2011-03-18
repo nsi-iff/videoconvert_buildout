@@ -8,31 +8,35 @@ from base64 import decodestring, b64encode
 from subprocess import call
 from multiprocessing import Process
 from time import sleep
+from json import loads
+from restfulie import Restfulie
 
 FOLDER_PATH = abspath(dirname(__file__))
 
 class VideoConvertTest(unittest.TestCase):
 
     def setUp(self):
-        self.video_service = Server("http://test:test@localhost:8080/xmlrpc")
-        self.sam = Server("http://video:convert@localhost:8888/xmlrpc")
+        self.video_service = Restfulie.at("http://test:test@localhost:8080/").as_('application/json').accepts('application/json')
+        self.sam = Restfulie.at('http://localhost:8888/').as_('application/json')
         self.uid_list = []
 
     def testConvertion(self):
         input_video = open(join(FOLDER_PATH,'input','rubik.flv')).read()
         b64_encoded_video = b64encode(input_video)
-        uid = self.video_service.convert(b64_encoded_video)
+        uid = self.video_service.post({'video':b64_encoded_video}).resource().key
         self.uid_list.append(uid)
-        self.assertTrue(isinstance(uid,str))
+        self.assertTrue(isinstance(uid,unicode))
 
-        sleep(50)
+        self.assertFalse(self.video_service.get({'key':uid}).resource().done)
 
-        self.assertTrue(self.video_service.done(uid))
-        video_dict = eval(self.sam.get(uid))
-        self.assertTrue(isinstance(video_dict, dict))
-        self.assertEquals(len(video_dict), 4)
+        sleep(60)
 
-        video_data = decodestring(video_dict.get('data'))
+        self.assertTrue(self.video_service.get({'key':uid}).resource().done)
+        video = loads(self.sam.get({'key':uid}).body)
+        self.assertTrue(isinstance(video, dict))
+        self.assertEquals(len(video), 3)
+
+        video_data = decodestring(video.get('data'))
         self.assertTrue(video_data)
 
 if __name__ == '__main__':
