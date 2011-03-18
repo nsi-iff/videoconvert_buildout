@@ -4,11 +4,11 @@
 from urllib import urlencode
 from urllib2 import urlopen, Request
 from simplejson import loads
-from xmlrpclib import Server
 from base64 import b64encode, decodestring
+from time import sleep
 from nsi.multimedia.transform.ogg_converter import OggConverter
 from nsi.multimedia.utils import replace_file_extension
-from time import sleep
+from restfulie import Restfulie
 
 def work(delay=10):
     while True:
@@ -19,10 +19,10 @@ def work(delay=10):
         if loads(response_data):
             response_dict = loads(loads(response_data)["value"])
             uid = response_dict["uid"]
-            video_b64 = eval(get_from_sam(uid))
-            converted = video_b64["data"]["converted"]
+            video_b64 = get_from_sam(uid)
+            converted = video_b64.data.converted
             if not converted:
-                process_video(uid, video_b64["data"]["video"], "/tmp/converted")
+                process_video(uid, video_b64.data.video, "/tmp/converted")
         sleep(delay)
 
 def process_video(uid, video, tmp_video_path):
@@ -44,12 +44,12 @@ def convert_video(path, destination=None):
     return open(destination or replace_file_extension(path, 'ogm')).read()
 
 def store_in_sam(uid, video):
-    sam = Server("http://${slaves:sam_user}:${slaves:sam_password}@${slaves:sam_host}:${slaves:sam_port}/xmlrpc")
-    return sam.update(uid, video)
+    sam = Restfulie.at("http://${slaves:sam_user}:${slaves:sam_password}@${slaves:sam_host}:${slaves:sam_port}/").as_("application/json")
+    return sam.post({'key':uid, 'value':video})
 
 def get_from_sam(uid):
-    sam = Server("http://${slaves:sam_user}:${slaves:sam_password}@${slaves:sam_host}:${slaves:sam_port}/xmlrpc")
-    return sam.get(uid)
+    sam = Restfulie.at("http://${slaves:sam_user}:${slaves:sam_password}@${slaves:sam_host}:${slaves:sam_port}/").as_("application/json")
+    return sam.get({'key':uid}).resource()
 
 if __name__ == '__main__':
     work()
