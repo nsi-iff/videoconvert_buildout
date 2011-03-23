@@ -1,7 +1,7 @@
 PYTHON=python
 PIP=pip
 
-all: clean celery gstreamer rest_mq redisapi buildout nsivideoconvert test
+all: clean celery gstreamer rest_mq redisapi buildout nsivideoconvert nsimultimedia test
 clean:
 	rm -Rf .installed.cfg bin downloads run develop-eggs eggs log parts
 
