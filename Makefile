@@ -17,6 +17,15 @@ nsivideoconvert:
 	@rm -Rf nsi.videoconvert-0.1
 	@rm -rf nsi.videoconvert-0.1.tar.gz
 
+nsimultimedia:
+	@rm -Rf nsi.multimedia-0.1.2
+	@rm -rf nsi.multimedia-0.1.2.tar.gz
+	wget http://newton.iff.edu.br/pypi/nsi.multimedia-0.1.2.tar.gz
+	tar -vzxf nsi.multimedia-0.1.2.tar.gz
+	cd nsi.multimedia-0.1.2 && ${PYTHON} setup.py install
+	@rm -Rf nsi.multimedia-0.1.2
+	@rm -rf nsi.multimedia-0.1.2.tar.gz
+
 redisapi:
 	@rm -Rf txredisapi
 	git clone git://github.com/fiorix/txredisapi.git
