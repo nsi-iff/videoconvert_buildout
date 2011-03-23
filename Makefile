@@ -1,8 +1,12 @@
 PYTHON=python
+PIP=pip
 
-all: clean gstreamer rest_mq redisapi buildout test
+all: clean celery gstreamer rest_mq redisapi buildout test
 clean:
 	rm -Rf .installed.cfg bin downloads run develop-eggs eggs log parts
+
+celery:
+	${PIP} install celery
 
 redisapi:
 	@rm -Rf txredisapi
