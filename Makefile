@@ -1,12 +1,21 @@
 PYTHON=python
 PIP=pip
 
-all: clean celery gstreamer rest_mq redisapi buildout test
+all: clean celery gstreamer rest_mq redisapi buildout nsivideoconvert test
 clean:
 	rm -Rf .installed.cfg bin downloads run develop-eggs eggs log parts
 
 celery:
 	${PIP} install celery
+
+nsivideoconvert:
+	@rm -Rf nsi.videoconvert-0.1
+	@rm -rf nsi.sam-0.1.tar.gz
+	wget http://newton.iff.edu.br/pypi/nsi.videoconvert-0.1.tar.gz
+	tar -vzxf nsi.videoconvert-0.1.tar.gz
+	cd nsi.videoconvert-0.1 && ${PYTHON} setup.py install
+	@rm -Rf nsi.videoconvert-0.1
+	@rm -rf nsi.videoconvert-0.1.tar.gz
 
 redisapi:
 	@rm -Rf txredisapi
