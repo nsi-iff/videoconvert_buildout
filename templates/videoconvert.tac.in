@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
+from os.path import dirname, abspath
+from sys import path
+
+ROOT = abspath(dirname(__file__))
+path.append(ROOT)
 
 import cyclone.web
 from twisted.application import service, internet
