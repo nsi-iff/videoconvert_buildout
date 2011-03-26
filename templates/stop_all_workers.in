@@ -1,0 +1,13 @@
+#!${buildout:bin-directory}/${celeryd:interpreter}
+
+from subprocess import call
+from celery.task.control import broadcast
+
+def main():
+    print "Stopping all workers..."
+    broadcast("shutdown")
+    
+
+if __name__ == '__main__':
+    main()
+
