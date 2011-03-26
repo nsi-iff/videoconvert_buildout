@@ -1,10 +1,13 @@
 #!${buildout:bin-directory}/${celeryd:interpreter}
 
 from os.path import dirname, abspath, join
+ROOT = abspath(dirname(__file__))
+ETC = join(ROOT, '..', 'etc')
+sys.path.append(ETC)
+
 from subprocess import call
 from sys import argv
 
-ROOT = abspath(dirname(__file__))
 
 def kill_pid(pid):
     call("kill %s" % pid, shell=True)
