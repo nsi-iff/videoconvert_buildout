@@ -1,7 +1,7 @@
 PYTHON=python
 PIP=pip
 
-all: clean celery gstreamer rest_mq redisapi buildout nsivideoconvert nsimultimedia test
+all: clean gstreamer redisapi buildout nsivideoconvert nsimultimedia celery test
 clean:
 	rm -Rf .installed.cfg bin downloads run develop-eggs eggs log parts
 
@@ -41,9 +41,3 @@ buildout:
 
 test:
 	cd tests && $(PYTHON) testVideoConverting.py
-
-rest_mq:
-	@rm -rf restmq restmq.tar.gz
-	git clone git://github.com/gleicon/restmq.git
-	@rm -rf restmq.tar.gz
-
