@@ -1,0 +1,12 @@
+#!${buildout:bin-directory}/${celeryd:interpreter}
+
+import sys
+from os.path import dirname, abspath, join
+ROOT = abspath(dirname(__file__))
+ETC = join(ROOT, '..', 'etc')
+sys.path.append(ETC)
+
+import celery.bin.celeryd
+
+if __name__ == '__main__':
+    celery.bin.celeryd.main()
