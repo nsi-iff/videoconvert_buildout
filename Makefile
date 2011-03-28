@@ -33,7 +33,7 @@ redisapi:
 	@rm -Rf txredisapi
 
 gstreamer:
-	sudo apt-get install python-gst0.10 gstreamer-tools
+	sudo apt-get install python-gst0.10 gstreamer-tools gstreamer0.10-ffmpeg
 
 buildout:
 	$(PYTHON) bootstrap.py
