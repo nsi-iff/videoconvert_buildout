@@ -19,7 +19,7 @@ def get_args():
 
 def start_worker():
     args = get_args()
-    call("%s/celeryd --pidfile=%s --logfile=%s &" % (ROOT, join(ROOT, '..', 'run', args.name+'.pid'),
+    call("%s/celeryd --pidfile=%s --logfile=%s -Q convert &" % (ROOT, join(ROOT, '..', 'run', args.name+'.pid'),
                                                     join(ROOT, '..', 'log', args.name+'.log')), shell=True)
     
 if __name__ == '__main__':
