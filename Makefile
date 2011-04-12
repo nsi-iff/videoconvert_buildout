@@ -1,12 +1,15 @@
 PYTHON=python
 PIP=pip
 
-all: clean gstreamer redisapi buildout nsivideoconvert nsimultimedia celery test
+all: clean gstreamer redisapi buildout nsivideoconvert nsimultimedia restfulie celery test
 clean:
 	rm -Rf .installed.cfg bin downloads run develop-eggs eggs log parts
 
 celery:
 	${PIP} install celery
+
+restfulie:
+	$(PIP) install restfulie
 
 nsivideoconvert:
 	@rm -Rf nsi.videoconvert-0.1
