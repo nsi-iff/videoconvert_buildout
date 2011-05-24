@@ -11,11 +11,6 @@ celery:
 restfulie:
 	$(PIP) install restfulie
 
-rabbitmq_auth:
-	bin/rabbitmqctl add_user test test
-	bin/rabbitmqctl add_vhost myvhost
-	bin/rabbitmqctl set_permissions -p myvhost test ".*" ".*" ".*"
-
 nsivideoconvert:
 	@rm -Rf nsi.videoconvert-0.1
 	@rm -rf nsi.sam-0.1.tar.gz
