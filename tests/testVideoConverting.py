@@ -23,16 +23,16 @@ class VideoConvertTest(unittest.TestCase):
     def testConvertion(self):
         input_video = open(join(FOLDER_PATH,'input','rubik.flv')).read()
         b64_encoded_video = b64encode(input_video)
-        uid = self.video_service.post({'video':b64_encoded_video}).resource().key
+        uid = self.video_service.post(video=b64_encoded_video).resource().key
         self.uid_list.append(uid)
         self.assertTrue(isinstance(uid,unicode))
 
-        self.assertFalse(self.video_service.get({'key':uid}).resource().done)
+        self.assertFalse(self.video_service.get(key=uid).resource().done)
 
         sleep(60)
 
-        self.assertTrue(self.video_service.get({'key':uid}).resource().done)
-        video = loads(self.sam.get({'key':uid}).body)
+        self.assertTrue(self.video_service.get(key=uid).resource().done)
+        video = loads(self.sam.get(key=uid).body)
 
         self.assertTrue(isinstance(video, dict))
         self.assertEquals(len(video), 4)
@@ -41,15 +41,12 @@ class VideoConvertTest(unittest.TestCase):
         self.assertTrue(video_data)
 
 if __name__ == '__main__':
-        rabbitmq_ctl = join(FOLDER_PATH, '..', 'bin', 'rabbitmqctl')
-        rabbitmq_server = join(FOLDER_PATH, '..', 'bin', 'rabbitmq-server')
         videoconvert_ctl = join(FOLDER_PATH, '..', 'bin', 'videoconvert_ctl')
         worker = join(FOLDER_PATH, '..', 'bin', 'start_worker -name test_worker')
         stop_worker = join(FOLDER_PATH, '..', 'bin', 'stop_worker')
         add_user = join(FOLDER_PATH, '..', 'bin', 'add-user.py')
         del_user = join(FOLDER_PATH, '..', 'bin', 'del-user.py')
         try:
-            call("%s -detached" % rabbitmq_server, shell=True)
             call("%s start" % videoconvert_ctl, shell=True)
             call("%s test test" % add_user, shell=True)
             call("%s" % worker, shell=True)
@@ -57,8 +54,7 @@ if __name__ == '__main__':
             unittest.main()
         finally:
             sleep(1)
-            call("%s stop" % rabbitmq_ctl, shell=True)
             call("%s stop" % videoconvert_ctl, shell=True)
-            call("%s test_worker " % stop_worker, shell=True) 
+            call("%s test_worker " % stop_worker, shell=True)
             call("%s test" % del_user, shell=True)
 
