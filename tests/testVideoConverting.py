@@ -40,6 +40,9 @@ class VideoConvertTest(unittest.TestCase):
         video_data = decodestring(video.get('data'))
         self.assertTrue(video_data)
 
+        for uid in self.uid_list:
+            self.sam.delete(key=uid)
+
 if __name__ == '__main__':
         videoconvert_ctl = join(FOLDER_PATH, '..', 'bin', 'videoconvert_ctl')
         worker = join(FOLDER_PATH, '..', 'bin', 'start_worker -name test_worker')
