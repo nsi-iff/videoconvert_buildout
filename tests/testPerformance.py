@@ -15,17 +15,20 @@ from restfulie import Restfulie
 
 FOLDER_PATH = abspath(dirname(__file__))
 
-def time_it(function_name):
-    def inner_timer(function):
-        def wrapped(*args, **kwargs):
+class time_it(object):
+
+    def __init__(self, function_name):
+        self.function_name = function_name
+
+    def __call__(self, function):
+        def wrapper(*args, **kwargs):
             start = datetime.now()
             result = function(*args, **kwargs)
             end = datetime.now()
             execution_time = end - start
-            print "%s took %d seconds and %d microseconds." % (function_name, execution_time.seconds, execution_time.microseconds)
+            print "%s took %d seconds and %d microseconds." % (self.function_name, execution_time.seconds, execution_time.microseconds)
             return result
-        return wrapped
-    return inner_timer
+        return wrapper
 
 class PerformanceTest(object):
 
