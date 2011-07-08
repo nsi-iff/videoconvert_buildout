@@ -49,7 +49,9 @@ if __name__ == '__main__':
         stop_worker = join(FOLDER_PATH, '..', 'bin', 'stop_worker')
         add_user = join(FOLDER_PATH, '..', 'bin', 'add-user.py')
         del_user = join(FOLDER_PATH, '..', 'bin', 'del-user.py')
+        callback_server = join(FOLDER_PATH, "callback_server.py")
         try:
+            call("twistd -y %s" % callback_server, shell=True)
             call("%s start" % videoconvert_ctl, shell=True)
             call("%s test test" % add_user, shell=True)
             call("%s" % worker, shell=True)
@@ -57,6 +59,7 @@ if __name__ == '__main__':
             unittest.main()
         finally:
             sleep(1)
+            call("kill -9 `cat tests/twistd.pid`", shell=True)
             call("%s stop" % videoconvert_ctl, shell=True)
             call("%s test_worker " % stop_worker, shell=True)
             call("%s test" % del_user, shell=True)
