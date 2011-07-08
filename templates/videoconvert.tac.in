@@ -15,6 +15,11 @@ from ConfigParser import RawConfigParser
 CONF = '${conf-path}'
 DB_FILE = '${db-file}'
 
+SAM_URL = '${sam:url}'
+SAM_USER = '${sam:user}'
+SAM_PASS = '${sam:pass}'
+
+
 def get_authenticator(conf):
     return Authentication(DB_FILE)
 
@@ -27,6 +32,9 @@ class VideoConvert(cyclone.web.Application):
 
         settings = {
             "auth": get_authenticator(CONF),
+            "sam_user": SAM_USER,
+            "sam_pass": SAM_PASS,
+            "sam_url": SAM_URL,
         }
 
         cyclone.web.Application.__init__(self, handlers, **settings)
