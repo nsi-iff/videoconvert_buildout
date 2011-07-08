@@ -23,7 +23,7 @@ class VideoConvertTest(unittest.TestCase):
     def testConvertion(self):
         input_video = open(join(FOLDER_PATH,'input','rubik.flv')).read()
         b64_encoded_video = b64encode(input_video)
-        uid = self.video_service.post(video=b64_encoded_video).resource().key
+        uid = self.video_service.post(video=b64_encoded_video, callback='http://google.com').resource().key
         self.uid_list.append(uid)
         self.assertTrue(isinstance(uid,unicode))
 
