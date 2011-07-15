@@ -23,7 +23,7 @@ class VideoConvertTest(unittest.TestCase):
     def testConvertion(self):
         input_video = open(join(FOLDER_PATH,'input','rubik.flv')).read()
         b64_encoded_video = b64encode(input_video)
-        uid = self.video_service.post(video=b64_encoded_video, callback='http://google.com').resource().key
+        uid = self.video_service.post(video=b64_encoded_video, callback='http://localhost:8887/').resource().key
         self.uid_list.append(uid)
         self.assertTrue(isinstance(uid,unicode))
 
@@ -59,7 +59,7 @@ if __name__ == '__main__':
             unittest.main()
         finally:
             sleep(1)
-            call("kill -9 `cat tests/twistd.pid`", shell=True)
+            call("kill -9 `cat twistd.pid`", shell=True)
             call("%s stop" % videoconvert_ctl, shell=True)
             call("%s test_worker " % stop_worker, shell=True)
             call("%s test" % del_user, shell=True)
