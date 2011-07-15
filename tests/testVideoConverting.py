@@ -40,6 +40,13 @@ class VideoConvertTest(unittest.TestCase):
         video_data = decodestring(video.get('data'))
         self.assertTrue(video_data)
 
+        uid_video_download = self.video_service.post(video_link='http://localhost:8887/rubik.flv', callback='http://localhost:8887').resource().key
+        self.uid_list.append(uid_video_download)
+
+        sleep(60)
+
+        self.assertTrue(self.video_service.get(key=uid_video_download).resource().done)
+
         for uid in self.uid_list:
             self.sam.delete(key=uid)
 
