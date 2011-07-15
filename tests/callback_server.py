@@ -1,6 +1,5 @@
 import json
 import cyclone.web
-from twisted.internet import defer
 from twisted.application import service, internet
 
 class HttpHandler(cyclone.web.RequestHandler):
@@ -13,17 +12,27 @@ class HttpHandler(cyclone.web.RequestHandler):
         video_is_done = video.get('done')
         if video_is_done:
             video_status = "done"
-            open('/tmp/done', 'w+').write('done')
         else:
             video_status = "not done"
-            open('/tmp/not_done', 'w+').write('not done')
         self.write("Video with uid %s is %s." % (video.get('uid'), video_is_done))
+
+class FileHandler(cyclone.web.RequestHandler):
+
+    def get(self):
+        video =  open('input/rubik.flv', 'r')
+        video_data = video.read()
+        video.close()
+
+        self.write(video_data)
+        self.finish()
+
 
 class CallbackService(cyclone.web.Application):
 
     def __init__(self):
         handlers = [
             (r"/", HttpHandler),
+            (r"/rubik.flv", FileHandler),
         ]
 
         settings = {
