@@ -8,7 +8,3 @@ BROKER_PASSWORD = '${celery_config:password}'
 BROKER_VHOST = '${celery_config:vhost}'
 CELERY_RESULT_BACKEND = "amqp"
 CELERY_IMPORTS = ('${celery_config:tasks}', )
-CELERY_ROUTES = {
-                "${celery_config:tasks}.${celery_config:convert_task}": {"queue": "${celery_config:task_queue}"},
-                "${celery_config:tasks}.${celery_config:callback_task}": {"queue": "${celery_config:task_queue}"},
-                }
