@@ -29,6 +29,9 @@ nsimultimedia:
 	@rm -Rf nsi.multimedia-0.1.2
 	@rm -rf nsi.multimedia-0.1.2.tar.gz
 
+should_dsl:
+	pip install should-dsl
+
 redisapi:
 	@rm -Rf txredisapi
 	git clone git://github.com/fiorix/txredisapi.git
