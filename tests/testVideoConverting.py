@@ -10,6 +10,7 @@ from multiprocessing import Process
 from time import sleep
 from json import loads
 from restfulie import Restfulie
+from should_dsl import *
 
 FOLDER_PATH = abspath(dirname(__file__))
 
@@ -20,32 +21,36 @@ class VideoConvertTest(unittest.TestCase):
         self.sam = Restfulie.at('http://localhost:8888/').auth('test', 'test').as_('application/json')
         self.uid_list = []
 
-    def testConvertion(self):
+    def testDirectConvertion(self):
         input_video = open(join(FOLDER_PATH,'input','rubik.flv')).read()
         b64_encoded_video = b64encode(input_video)
         uid = self.video_service.post(video=b64_encoded_video, callback='http://localhost:8887/').resource().key
         self.uid_list.append(uid)
-        self.assertTrue(isinstance(uid,unicode))
 
-        self.assertFalse(self.video_service.get(key=uid).resource().done)
+        uid |should| be_instance_of(unicode)
+
+        self.video_service.get(key=uid).resource() |should_not| be_done
 
         sleep(60)
 
-        self.assertTrue(self.video_service.get(key=uid).resource().done)
+        self.video_service.get(key=uid).resource() |should| be_done
         video = loads(self.sam.get(key=uid).body)
-
-        self.assertTrue(isinstance(video, dict))
-        self.assertEquals(len(video), 4)
-
+        video.keys() |should| have(4).items
         video_data = decodestring(video.get('data'))
-        self.assertTrue(video_data)
+        video_data |should_not| have(0).characters
+
+    def testDownloadConvertion(self):
 
         uid_video_download = self.video_service.post(video_link='http://localhost:8887/rubik.flv', callback='http://localhost:8887').resource().key
         self.uid_list.append(uid_video_download)
 
         sleep(60)
 
-        self.assertTrue(self.video_service.get(key=uid_video_download).resource().done)
+        convertion = self.video_service.get(key=uid_video_download).resource()
+
+        convertion |should| be_done
+
+    def tearDown(self):
 
         for uid in self.uid_list:
             self.sam.delete(key=uid)
