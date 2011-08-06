@@ -69,23 +69,3 @@ Com o SAM em execução, adicionar o usuário “video”, com senha “convert�
 utilizando: “bin/add-user.py video convert”. Depois na raiz do buildout do
 VideoConvert executar: “make test”.
 
-
-Consumindo o serviço manualmente (usando Python)
-------------------------------------------------
-
-Com os dois serviços devidamente iniciados (SAM e VideoConvert), abrir um
-terminal Python. Da biblioteca “xmlrpclib” importar a classe “Server” e da
-classe “base64” importar “b64encode” e “decodestring”. Criar uma instância da
-classe “Server”, passando como parâmetro o endereço do serviço
-(http://video:convert@localhost:8080/xmlrpc, e lembrar de adicionar o usuário).
-Ler um arquivo de vídeo do disco e codifiça-lo usando a função “b64encode”.
-Chamar a função “convert” do objeto criada anteriormente passando como parâmetro
-o vídeo codificado em base 64. A função retornará um uid (id único) onde se
-encontrará o vídeo convertido. Se algum slave estiver sendo executado, ele
-converterá o vídeo automaticamente. Chamar a função "done" passando o UID para
-o saber se o vídeo já foi convertido com sucesso.
-Para recuperar o vídeo, criar um novo objeto da classe "Server" passando como
-parâmetro o endereço do servidor de armazenamento e chamar a função "get" para
-obter o dicionário com os dados do vídeo como string. Aplicar a função "eval"
-nele para transformá-lo em um objeto Python.
-
