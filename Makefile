@@ -1,12 +1,9 @@
 PYTHON=python
 PIP=pip
 
-all: clean gstreamer redisapi buildout nsivideoconvert nsimultimedia restfulie celery should_dsl test
+all: clean gstreamer redisapi buildout nsivideoconvert nsimultimedia restfulie should_dsl test
 clean:
 	rm -Rf .installed.cfg bin downloads run develop-eggs eggs log parts
-
-celery:
-	${PIP} install celery
 
 restfulie:
 	$(PIP) install restfulie
