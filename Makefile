@@ -35,8 +35,14 @@ redisapi:
 	cd txredisapi && $(PYTHON) setup.py install
 	@rm -Rf txredisapi
 
+load_test:
+	cd tests && fl-run-bench testFunkLoad.py VideoConvertBench.test_convert
+
+load_test_report:
+	cd tests && fl-build-report --html videoconvert-bench.xml -r funkload_report
+
 gstreamer:
-	sudo apt-get install python-gst0.10 gstreamer-tools gstreamer0.10-ffmpeg gstreamer0.10-plugins gstreamer0.10-plugins-bad gstreamer0.10-plugins-good gstreamer0.10-x
+	sudo apt-get install python-gst0.10 gstreamer-tools gstreamer0.10-ffmpeg gstreamer0.10-plugins-good gstreamer0.10-plugins-bad gstreamer0.10-plugins-good gstreamer0.10-x python-gtk2
 
 buildout:
 	$(PYTHON) bootstrap.py
