@@ -1,12 +1,15 @@
 PYTHON=python
 PIP=pip
 
-all: clean gstreamer redisapi buildout nsivideoconvert nsimultimedia restfulie should_dsl funkload test
+all: clean gstreamer redisapi buildout nsivideoconvert nsimultimedia restfulie should_dsl cyclone funkload test
 clean:
 	rm -Rf .installed.cfg bin downloads run develop-eggs eggs log parts
 
 restfulie:
 	$(PIP) install restfulie
+
+cyclone:
+	pip install twisted cyclone
 
 nsivideoconvert:
 	@rm -Rf nsi.videoconvert-0.1
