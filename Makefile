@@ -1,7 +1,7 @@
 PYTHON=python
 PIP=pip
 
-all: clean gstreamer redisapi buildout nsivideoconvert nsimultimedia restfulie should_dsl test
+all: clean gstreamer redisapi buildout nsivideoconvert nsimultimedia restfulie should_dsl funkload test
 clean:
 	rm -Rf .installed.cfg bin downloads run develop-eggs eggs log parts
 
@@ -34,6 +34,10 @@ redisapi:
 	git clone git://github.com/fiorix/txredisapi.git
 	cd txredisapi && $(PYTHON) setup.py install
 	@rm -Rf txredisapi
+
+funkload:
+	sudo apt-get install python-dev python-setuptools python-webunit python-docutils gnuplot
+	pip install funkload
 
 load_test:
 	cd tests && fl-run-bench testFunkLoad.py VideoConvertBench.test_convert
