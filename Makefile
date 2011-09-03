@@ -40,7 +40,12 @@ funkload:
 	pip install funkload
 
 load_test:
+	bin/videoconvert_ctl start
+	bin/add-user.py test test
 	cd tests && fl-run-bench testFunkLoad.py VideoConvertBench.test_convert
+	cd tests && fl-build-report --html videoconvert-bench.xml -r funkload_report
+	bin/videoconvert_ctl stop
+	bin/del-user.py test
 
 load_test_report:
 	cd tests && fl-build-report --html videoconvert-bench.xml -r funkload_report
