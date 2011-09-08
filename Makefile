@@ -1,9 +1,12 @@
 PYTHON=python
 PIP=pip
 
-all: clean gstreamer redisapi buildout nsivideoconvert nsimultimedia restfulie should_dsl cyclone funkload test
+all: clean pip gstreamer redisapi buildout nsivideoconvert nsimultimedia restfulie should_dsl cyclone funkload test
 clean:
 	rm -Rf .installed.cfg bin downloads run develop-eggs eggs log parts
+
+pip:
+	easy_install pip
 
 restfulie:
 	$(PIP) install restfulie
