@@ -45,6 +45,9 @@ funkload:
 	sudo apt-get install python-dev python-setuptools python-webunit python-docutils gnuplot
 	pip install funkload
 
+convert_test:
+	cd tests && python testPerformanceVideoConvert.py
+
 load_test:
 	bin/videoconvert_ctl start
 	bin/add-user.py test test
