@@ -1,4 +1,6 @@
 VideoConvert Buildout
+=====================
+
 
 Sistema operacional
 -------------------
@@ -58,7 +60,7 @@ Instalação
 ----------
 
 Assumindo que o SAM já está devidamente instalado e iniciado na máquina, criar
-um ambiente virtual usando Python 2.6 e sem a opção no-site-packages e com o
+um ambiente virtual usando Python 2.6, sem a opção no-site-packages e com o
 mesmo ativado executar “make” na pasta do buildout.
 
 
@@ -77,11 +79,10 @@ e rodar o  utilitário *make* contido nele. Depois, basta executar o comando
 Tudo deverá estar funcionando normalmente (caso contrário me mande um e-mail).
 
 
-
 Rodando os testes
 -----------------
 
-Com o SAM em execução, adicionar o usuário “video”, com senha “convert” nele
+Com o SAM em execução, adicionar o usuário “test”, com senha “test” nele
 utilizando: “bin/add-user.py video convert”. Depois na raiz do buildout do
 VideoConvert executar: “make test”.
 
