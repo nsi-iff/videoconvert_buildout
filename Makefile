@@ -1,7 +1,7 @@
 PYTHON=python
 PIP=pip
 
-all: clean pip gstreamer redisapi buildout nsivideoconvert nsimultimedia restfulie should_dsl cyclone funkload test
+all: clean pip gstreamer argparse redisapi buildout nsivideoconvert nsimultimedia restfulie should_dsl cyclone funkload test
 clean:
 	rm -Rf .installed.cfg bin downloads run develop-eggs eggs log parts
 
@@ -42,7 +42,7 @@ redisapi:
 	@rm -Rf txredisapi
 
 funkload:
-	sudo apt-get install python-dev python-setuptools python-webunit python-docutils gnuplot
+	sudo apt-get install python-dev python-setuptools python-webunit python-docutils gnuplot -y
 	pip install funkload
 
 convert_test:
@@ -59,8 +59,11 @@ load_test:
 load_test_report:
 	cd tests && fl-build-report --html videoconvert-bench.xml -r funkload_report
 
+argparse:
+	sudo apt-get install python-argparse -y
+
 gstreamer:
-	sudo apt-get install python-gst0.10 gstreamer-tools gstreamer0.10-ffmpeg gstreamer0.10-plugins-good gstreamer0.10-plugins-bad gstreamer0.10-plugins-good gstreamer0.10-x python-gtk2
+	sudo apt-get install python-gst0.10 gstreamer-tools gstreamer0.10-ffmpeg gstreamer0.10-plugins-good gstreamer0.10-plugins-bad gstreamer0.10-plugins-good gstreamer0.10-x python-gtk2 -y
 
 buildout:
 	$(PYTHON) bootstrap.py
