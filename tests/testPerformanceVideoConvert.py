@@ -32,7 +32,7 @@ class time_it(object):
 class VideoConvertTest(unittest.TestCase):
 
     def setUp(self):
-        self.video_convert_service = Restfulie.at("http://localhost:8080/").auth('test', 'test').as_('application/json')
+        self.video_convert_service = Restfulie.at("http://localhost:8884/").auth('test', 'test').as_('application/json')
         self.sam = Restfulie.at("http://localhost:8888/").auth('test', 'test').as_('application/json')
         self.uid_list = []
 
