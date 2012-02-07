@@ -24,7 +24,8 @@ Arquitetura
 Como pode ser visto no pacote "nsi.videoconvert" o sistema consiste em um webservice RESTful hostiado por padrão na porta 8080
 na url "http://localhost:8080/". Ele responde aos verbos POST e GET. Cada verbo correspondendo a uma ação do serviço de granularização:
 POST para submeter um vídeo, GET para verificar o estado da granularização. Todos os verbos recebem parâmetros no formato "json",
-para melhor interoperabilidade com qualquer outra ferramenta.
+para melhor interoperabilidade com qualquer outra ferramenta. Para maior entendimento sobre a arquitetura, verificar o diagrama
+na pasta *docs*.
 
 
 POST
