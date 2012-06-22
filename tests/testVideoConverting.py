@@ -46,7 +46,6 @@ class VideoConvertTest(unittest.TestCase):
         response = self.sam.put(value={"video":b64_encoded_video, "converted":False})
         response.code |should| equal_to('200')
         video_key = response.resource().key
-        print video_key
         self.uid_list.append(video_key)
 
         self.video_service.post(video_uid=video_key, filename='teste.flv')
