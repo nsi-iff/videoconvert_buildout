@@ -39,6 +39,27 @@ class VideoConvertTest(unittest.TestCase):
         video_data = decodestring(video.get('data').get('video'))
         video_data |should_not| have(0).characters
 
+    def testConvertionFromSam(self):
+        input_video = open(join(FOLDER_PATH,'input','rubik.flv')).read()
+        b64_encoded_video = b64encode(input_video)
+
+        response = self.sam.put(value={"video":b64_encoded_video, "converted":False})
+        response.code |should| equal_to('200')
+        video_key = response.resource().key
+        print video_key
+        self.uid_list.append(video_key)
+
+        self.video_service.post(video_uid=video_key, filename='teste.flv')
+        self.video_service.get(key=video_key).resource() |should_not| be_done
+
+        sleep(60)
+
+        self.video_service.get(key=video_key).resource() |should| be_done
+        video = loads(self.sam.get(key=video_key).body)
+        video.keys() |should| have(4).items
+        video_data = decodestring(video.get('data').get('video'))
+        video_data |should_not| have(0).characters
+
     def testDownloadConvertion(self):
 
         uid_video_download = self.video_service.post(video_link='http://localhost:8887/rubik.flv', callback='http://localhost:8887').resource().key
