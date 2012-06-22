@@ -36,7 +36,7 @@ class VideoConvertTest(unittest.TestCase):
         self.video_service.get(key=uid).resource() |should| be_done
         video = loads(self.sam.get(key=uid).body)
         video.keys() |should| have(4).items
-        video_data = decodestring(video.get('data'))
+        video_data = decodestring(video.get('data').get('video'))
         video_data |should_not| have(0).characters
 
     def testDownloadConvertion(self):
