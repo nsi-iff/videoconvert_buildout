@@ -19,6 +19,8 @@ SAM_URL = '${sam:url}'
 SAM_USER = '${sam:user}'
 SAM_PASS = '${sam:pass}'
 
+TASK_QUEUE = '${task_queue}'
+
 
 def get_authenticator(conf):
     return Authentication(DB_FILE)
@@ -35,6 +37,7 @@ class VideoConvert(cyclone.web.Application):
             "sam_user": SAM_USER,
             "sam_pass": SAM_PASS,
             "sam_url": SAM_URL,
+            "task_queue": TASK_QUEUE,
         }
 
         cyclone.web.Application.__init__(self, handlers, **settings)
