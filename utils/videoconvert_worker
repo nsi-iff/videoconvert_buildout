@@ -1,0 +1,42 @@
+#!/bin/bash
+
+#set -x
+
+FOLDER_PATH="/home/nexedi/videoconvert_buildout"
+OPTS=""
+
+videoconvertworker_path="$FOLDER_PATH/bin"
+pid_path="$FOLDER_PATH/run"
+
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+     log_daemon_msg "Starting a VideoConvert worker..." "videoconvert_worker1"
+     if start-stop-daemon -c nexedi --start --quiet --oknodo --pidfile $pid_path/videoconvert_worker1.pid --exec \
+        $videoconvertworker_path/start_worker -- -name videoconvert_worker1 $OPTS; then
+        log_end_msg 0
+     else
+        log_end_msg 1
+     fi
+     ;;
+
+  stop)
+     log_daemon_msg "Stoping a VideoConvert worker..." "videoconvert_worker1"
+     if start-stop-daemon -c nexedi --stop --quiet --oknodo --pidfile $pid_path/videoconvert_worker1.pid; then
+        log_end_msg 0
+     else
+        log_end_msg 1
+     fi
+     ;;
+
+  status)
+     status_of_proc -p $pid_path/videoconvert_worker1.pid $videoconvertworker_path/celeryd videoconvert_worker1 && exit 0 || exit $?
+     ;;
+
+  *)
+    log_action_msg "Usage: /etc/init.d/videoconvert_worker {start|stop|status}"
+    exit 1
+esac
+
+exit 0
