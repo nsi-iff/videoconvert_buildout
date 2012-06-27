@@ -1,0 +1,43 @@
+#!/bin/bash
+
+#set -x
+
+HOME=/home/nexedi
+FOLDER_PATH="/home/nexedi/videoconvert_buildout"
+OPTS=""
+
+videoconvertctl_path="$FOLDER_PATH/bin"
+pid_path="$FOLDER_PATH/run"
+
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+     log_daemon_msg "Starting a VideoConvert server..." "videoconvert"
+     if start-stop-daemon -c nexedi --start --quiet --oknodo --pidfile $pid_path/videoconvert.pid --exec \
+        $videoconvertctl_path/videoconvert_ctl start $OPTS; then
+        log_end_msg 0
+     else
+        log_end_msg 1
+     fi
+     ;;
+
+  stop)
+     log_daemon_msg "Stoping VideoConvert server..." "videoconvert"
+     if start-stop-daemon -c nexedi --stop --quiet --oknodo --pidfile $pid_path/videoconvert.pid; then
+        log_end_msg 0
+     else
+        log_end_msg 1
+     fi
+     ;;
+
+  status)
+     status_of_proc -p $pid_path/videoconvert.pid $videoconvertctl_path/videoconvert_ctl videoconvert && exit 0 || exit $?
+     ;;
+
+  *)
+    log_action_msg "Usage: /etc/init.d/videoconvert {start|stop|status}"
+    exit 1
+esac
+
+exit 0
