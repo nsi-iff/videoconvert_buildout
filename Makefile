@@ -15,22 +15,10 @@ cyclone:
 	pip install twisted cyclone
 
 nsivideoconvert:
-	@rm -Rf nsi.videoconvert-0.1
-	@rm -rf nsi.sam-0.1.tar.gz
-	wget http://newton.iff.edu.br/pypi/nsi.videoconvert-0.1.tar.gz
-	tar -vzxf nsi.videoconvert-0.1.tar.gz
-	cd nsi.videoconvert-0.1 && ${PYTHON} setup.py install
-	@rm -Rf nsi.videoconvert-0.1
-	@rm -rf nsi.videoconvert-0.1.tar.gz
+	pip install https://github.com/nsi-iff/nsi.videoconvert/tarball/master
 
 nsimultimedia:
-	@rm -Rf nsi.multimedia-0.1.2
-	@rm -rf nsi.multimedia-0.1.2.tar.gz
-	wget http://newton.iff.edu.br/pypi/nsi.multimedia-0.1.2.tar.gz
-	tar -vzxf nsi.multimedia-0.1.2.tar.gz
-	cd nsi.multimedia-0.1.2 && ${PYTHON} setup.py install
-	@rm -Rf nsi.multimedia-0.1.2
-	@rm -rf nsi.multimedia-0.1.2.tar.gz
+	pip install https://github.com/nsi-iff/nsi.multimedia/tarball/master
 
 should_dsl:
 	pip install should-dsl
